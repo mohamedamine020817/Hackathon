@@ -1,0 +1,135 @@
+.mobile-alerts {
+  padding: 0;
+}
+
+.alerts-header {
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--light-green) 100%);
+  color: var(--white);
+  padding: 20px;
+}
+
+.alerts-header h1 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.alerts-list {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.alert-notification {
+  background: var(--white);
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  border-left: 4px solid;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.alert-notification.high {
+  border-left-color: #e74c3c;
+  background: #fdeaea;
+}
+
+.alert-notification.medium {
+  border-left-color: #f39c12;
+  background: #fef5e7;
+}
+
+.alert-notification.low {
+  border-left-color: #27ae60;
+  background: #eafaf1;
+}
+
+.alert-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.alert-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.alert-body h3 {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 0 4px 0;
+  color: var(--dark-gray);
+}
+
+.alert-body p {
+  font-size: 13px;
+  color: var(--text-gray);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.alert-time {
+  font-size: 11px !important;
+  color: #999 !important;
+  margin-top: 4px !important;
+}
+
+.alert-dismiss {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+  flex-shrink: 0;
+}
+
+.no-alerts {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-gray);
+}
+
+.no-alerts p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.no-alerts p:first-child {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+/* Tips */
+.alerts-tips {
+  padding: 20px 12px;
+}
+
+.alerts-tips h2 {
+  font-size: 16px;
+  margin: 0 0 12px 0;
+  color: var(--dark-gray);
+}
+
+.tip-card {
+  background: var(--light-gray);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.tip-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.tip-card p {
+  font-size: 13px;
+  color: var(--text-gray);
+  margin: 0;
+  line-height: 1.4;
+}

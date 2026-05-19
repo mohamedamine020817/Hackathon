@@ -1,0 +1,40 @@
+.mobile-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: 480px;
+  height: 60px;
+  background: var(--white);
+  border-top: 1px solid var(--medium-gray);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 100;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.mobile-nav-item {
+  flex: 1;
+  height: 100%;
+  background: none;
+  border: none;
+  color: var(--text-gray);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 12px;
+}
+
+.mobile-nav-item:active {
+  background: var(--light-gray);
+}
+
+.mobile-nav-item.active {
+  color: var(--primary-green);
+  font-weight: bold;
+}

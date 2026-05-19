@@ -1,0 +1,390 @@
+/* Mobile Dashboard v2 - Modern & Optimized */
+
+.mobile-dashboard-v2 {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 12px;
+  padding-bottom: 80px;
+  animation: fadeIn 0.4s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header */
+.mobile-header-v2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  background: white;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.mobile-user-greeting {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.greeting-emoji {
+  font-size: 28px;
+  animation: wave 0.5s ease-in-out;
+}
+
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(20deg); }
+  75% { transform: rotate(-20deg); }
+}
+
+.mobile-user-greeting h1 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-dark);
+}
+
+.mobile-user-level {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.level-badge {
+  background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.level-xp {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary-green);
+}
+
+/* Score Mini Card */
+.mobile-score-mini {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.score-display {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+}
+
+.score-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.score-bg {
+  fill: none;
+  stroke: var(--light-gray);
+  stroke-width: 6;
+}
+
+.score-fill {
+  fill: none;
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.4s ease;
+}
+
+.score-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.score-num {
+  display: block;
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--primary-green);
+}
+
+.score-label {
+  display: block;
+  font-size: 10px;
+  color: var(--text-gray);
+  text-transform: uppercase;
+}
+
+.score-mini-info {
+  flex: 1;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.info-label {
+  color: var(--text-gray);
+  font-weight: 500;
+}
+
+.info-value {
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+/* Quick Stats */
+.mobile-quick-stats {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.stat-chip {
+  flex: 0 0 auto;
+  width: calc(50% - 5px);
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.stat-chip:active {
+  transform: scale(0.95);
+}
+
+.stat-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary-green);
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--text-gray);
+}
+
+/* Sections */
+.mobile-section {
+  margin-bottom: 16px;
+}
+
+.section-title {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+  padding: 0 4px;
+}
+
+/* Contracts List */
+.mobile-contracts-list {
+  display: grid;
+  gap: 10px;
+}
+
+.mobile-contract-item {
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.mobile-contract-item:active {
+  transform: scale(0.98);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-contract-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.mobile-contract-info {
+  flex: 1;
+}
+
+.mobile-contract-info h4 {
+  margin: 0 0 4px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.contract-quick-info {
+  display: flex;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-gray);
+}
+
+.mobile-contract-status {
+  flex-shrink: 0;
+}
+
+.contract-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.contract-badge.expired {
+  background: #bdc3c7;
+}
+
+/* Score Breakdown */
+.mobile-breakdown-compact {
+  display: grid;
+  gap: 10px;
+}
+
+.breakdown-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--text-gray);
+}
+
+.breakdown-fill {
+  height: 8px;
+  background: linear-gradient(90deg, var(--primary-green), var(--light-green));
+  border-radius: 4px;
+  flex: 1;
+  transition: width 0.3s ease;
+}
+
+.breakdown-pct {
+  font-weight: 600;
+  color: var(--primary-green);
+  width: 30px;
+  text-align: right;
+}
+
+/* Quick Actions */
+.mobile-quick-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.mobile-action-mini {
+  background: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.mobile-action-mini:active {
+  transform: scale(0.95);
+  background: var(--light-gray);
+}
+
+.mobile-action-mini span:first-child {
+  font-size: 28px;
+}
+
+/* Bottom Spacer */
+.mobile-bottom-spacer {
+  height: 16px;
+}
+
+/* Loading */
+.mobile-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-size: 32px;
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Responsive */
+@media (max-width: 380px) {
+  .mobile-score-mini {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .score-display {
+    margin: 0 auto;
+  }
+
+  .mobile-quick-stats {
+    gap: 8px;
+  }
+
+  .stat-chip {
+    width: 100%;
+  }
+
+  .mobile-action-mini {
+    padding: 12px 4px;
+  }
+}
