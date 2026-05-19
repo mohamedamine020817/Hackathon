@@ -1,0 +1,14 @@
+.DS_Store
+node_modules/
+dist/
+.env
+.env.local
+.env.*.local
+*.log
+.vscode/
+.idea/
+.env.production
+.nyc_output
+coverage/
+.next
+out/

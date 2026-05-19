@@ -1,0 +1,312 @@
+// InsurSmart Database Schema
+// Prisma ORM configuration for NestJS backend
+// Database: PostgreSQL with type-safe data access
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// ENUMS
+// ============================================================================
+
+/// Insurance contract types supported by InsurSmart
+enum ContractType {
+  AUTO
+  HOME
+  HEALTH
+  TRAVEL
+}
+
+/// Contract lifecycle statuses
+enum ContractStatus {
+  ACTIVE
+  INACTIVE
+  EXPIRED
+}
+
+/// Insurance claim types
+enum ClaimType {
+  ACCIDENT
+  THEFT
+  FLOOD
+  FIRE
+  MEDICAL
+}
+
+/// Claim processing statuses (journey tracking)
+enum ClaimStatus {
+  PENDING
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  PAID
+}
+
+/// Alert categories for user notifications
+enum AlertCategory {
+  WEATHER
+  REMINDER
+  RECOMMENDATION
+}
+
+/// Alert severity levels for prioritization
+enum AlertSeverity {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+/// User loyalty tiers (gamification)
+enum UserLevel {
+  Bronze
+  Argent
+  Or
+  Platine
+}
+
+/// Actions that grant XP to users
+enum XpAction {
+  CLAIM_DECLARED
+  PROFILE_COMPLETE
+  SCORE_IMPROVED
+}
+
+// ============================================================================
+// MODELS
+// ============================================================================
+
+/// User model - Core entity representing InsurSmart users
+/// Prevention Score: Measures user's proactive insurance habits (0-100)
+/// XP & Level: Gamification system to encourage engagement
+model User {
+  id                  String      @id @default(uuid())
+  email               String      @unique
+  phone               String?
+  passwordHash        String
+  fullName            String
+  age                 Int?
+  location            String?
+  
+  /// Prevention score (0-100): reflects user's proactive behaviors
+  /// Impacts insurance premiums and badge eligibility
+  preventionScore     Int         @default(50)
+  
+  /// Experience points for gamification
+  xp                  Int         @default(0)
+  
+  /// User loyalty tier
+  level               UserLevel   @default(Bronze)
+  
+  /// JSON field for user preferences (notification settings, privacy, etc.)
+  preferences         Json        @default("{}")
+  
+  /// Two-factor authentication status
+  twoFactorEnabled    Boolean     @default(false)
+  
+  /// Secret for 2FA (TOTP/SMS)
+  twoFactorSecret     String?
+  
+  /// Soft delete support
+  deletedAt           DateTime?
+  
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  
+  // Relations
+  contracts           Contract[]
+  claims              Claim[]
+  alerts              Alert[]
+  xpEntries           XpEntry[]
+  badges              UserBadge[]
+
+  @@index([email])
+  @@index([deletedAt])
+}
+
+/// Contract model - Insurance policy representation
+/// Tracks coverage, premiums, and guarantees
+model Contract {
+  id                  String      @id @default(uuid())
+  userId              String
+  
+  /// Contract type (AUTO, HOME, HEALTH, TRAVEL)
+  type                ContractType
+  
+  /// Monthly/annual premium amount
+  premium             Float
+  
+  /// Contract lifecycle status
+  status              ContractStatus @default(ACTIVE)
+  
+  /// Coverage percentage (0-100%)
+  coverage            Int
+  
+  /// Contract validity dates
+  startDate           DateTime
+  endDate             DateTime?
+  
+  /// Array of coverage guarantees (e.g., "accident", "theft", "flood")
+  guarantees          String[]
+  
+  /// Deductible amount for claims
+  deductible          Float?
+  
+  /// Maximum coverage amount
+  maxCoverage         Float?
+  
+  /// Soft delete support
+  deletedAt           DateTime?
+  
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  
+  // Relations
+  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  claims              Claim[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([deletedAt])
+}
+
+/// Claim model - Insurance claim processing
+/// Tracks claim lifecycle from declaration to payment
+model Claim {
+  id                  String      @id @default(uuid())
+  contractId          String
+  userId              String
+  
+  /// Type of claim (ACCIDENT, THEFT, FLOOD, FIRE, MEDICAL)
+  type                ClaimType
+  
+  /// Claim processing status
+  status              ClaimStatus @default(PENDING)
+  
+  /// Claim description and details
+  description         String      @db.Text
+  
+  /// Estimated claim amount
+  estimatedAmount     Float?
+  
+  /// Final approved amount
+  approvedAmount      Float?
+  
+  /// URLs to supporting documents (images, receipts, etc.)
+  documents           String[]
+  
+  /// Priority level (affects processing speed)
+  priority            String      @default("MEDIUM")
+  
+  /// JSON timeline: [{status, timestamp, note}]
+  /// Tracks claim journey for user transparency
+  timeline            Json        @default("[]")
+  
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  
+  // Relations
+  contract            Contract    @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([contractId])
+  @@index([status])
+}
+
+/// Alert model - User notifications and reminders
+/// Weather alerts, policy reminders, and personalized recommendations
+model Alert {
+  id                  String      @id @default(uuid())
+  userId              String
+  
+  /// Alert category (WEATHER, REMINDER, RECOMMENDATION)
+  category            AlertCategory
+  
+  /// Severity level
+  severity            AlertSeverity
+  
+  /// Alert message content
+  message             String      @db.Text
+  
+  /// Read/unread status
+  readStatus          Boolean     @default(false)
+  
+  /// Timestamp when user dismisses alert
+  dismissedAt         DateTime?
+  
+  createdAt           DateTime    @default(now())
+  
+  // Relations
+  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+/// Badge model - Achievement/certification system
+/// Represents badges users can unlock (Explorer, Econome, Prudent, etc.)
+model Badge {
+  id                  String      @id @default(uuid())
+  
+  /// Unique badge identifier
+  name                String      @unique
+  
+  /// Badge description
+  description         String      @db.Text
+  
+  /// Requirement to unlock: {type: "xp" | "score" | "action", value: number}
+  requirement         Json
+  
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  
+  // Relations
+  users               UserBadge[]
+
+  @@index([name])
+}
+
+/// XpEntry model - Experience points transaction log
+/// Each action contributing to user's progression
+model XpEntry {
+  id                  String      @id @default(uuid())
+  userId              String
+  
+  /// Action that granted XP
+  action              XpAction
+  
+  /// Points awarded
+  points              Int
+  
+  createdAt           DateTime    @default(now())
+  
+  // Relations
+  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+/// UserBadge model - Junction table
+/// Links users to earned badges with unlock timestamp
+model UserBadge {
+  userId              String
+  badgeId             String
+  
+  /// When badge was unlocked
+  unlockedAt          DateTime    @default(now())
+  
+  // Relations
+  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge               Badge       @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  @@id([userId, badgeId])
+  @@index([userId])
+  @@index([badgeId])
+}
